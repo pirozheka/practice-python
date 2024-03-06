@@ -1,3 +1,4 @@
+import random
 class Word:
     def __init__(self, word):
         self.word = word
@@ -31,13 +32,24 @@ class Player:
                 print('Ошибка! Введите буквенный символ!')
 
 class Game:
-    def __init__(self, word):
-        self.word = Word(word)
+    def __init__(self):
         self.guesses = set()
         self.max_attempts = 6  # Максимальное количество попыток
         self.attempts_left = self.max_attempts
         self.player = Player()
+        self.word = None
+        self.words = [
+            'лодка',
+            'кошка',
+            'папка',
+            'пирог',
+            'горка',
+            'редис'
+        ]
 
+    def generate_word(self):
+        i = random.randint(1, len(self.words) - 1)
+        self.word = Word(self.words[i])
     def display_word(self):
         self.word.display_word(self.guesses)
 
@@ -45,12 +57,13 @@ class Game:
         self.guesses.add(self.player.make_guess())
 
     def check_win(self):
-        return set(self.word.word) == self.guesses
+        return set(self.word.word) <= self.guesses
 
     def check_lose(self):
         return self.attempts_left <= 0
 
     def play(self):
+        self.generate_word()
         while not self.check_win() and not self.check_lose():
             self.display_word()
             self.make_guess()
@@ -59,6 +72,7 @@ class Game:
             print(f"Осталось попыток: {self.attempts_left}")
 
         if self.check_win():
+            self.display_word()
             print("Поздравляем, вы выиграли!")
         else:
             print(f"Игра окончена. Загаданное слово: {self.word.word}")
@@ -67,5 +81,5 @@ class Game:
         self.guesses = set()
         self.attempts_left = self.max_attempts
 
-game = Game('лодка')
+game = Game()
 game.play()
