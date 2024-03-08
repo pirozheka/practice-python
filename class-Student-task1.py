@@ -56,3 +56,5 @@ print(ivan.marks) # Доступ к свойству marks
 ivan.add_mark()
 avg_mark = ivan.display_avg_mark()
 print(f"Средняя оценка, возвращенная из метода: {avg_mark}")
+
+
